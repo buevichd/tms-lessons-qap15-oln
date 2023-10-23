@@ -29,3 +29,19 @@ class Bank:
         target_account = self.bank_accounts[account_number]
         target_account.money += money
 
+    def transfer_money(self, from_account_number,
+                       to_account_number, money):
+        from_account = self.bank_accounts[from_account_number]
+        to_account = self.bank_accounts[to_account_number]
+        from_account.money -= money
+        to_account.money += money
+
+    def external_transfer(self, from_account_number,
+                          to_external_number, money):
+        from_account = self.bank_accounts[from_account_number]
+        from_account.money -= money
+
+        print(f'Банк перевёл {money}$ с вашего счёта '
+              f'{from_account_number} на внешний счёт '
+              f'{to_external_number}')
+
