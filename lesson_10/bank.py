@@ -43,8 +43,8 @@ def load_accounts(file_name) -> dict[str, BankAccount]:
 
 
 class Bank:
-    def __init__(self):
-        self.bank_accounts: dict[str, BankAccount] = {}
+    def __init__(self, bank_accounts=None):
+        self.bank_accounts: dict[str, BankAccount] = bank_accounts or {}
 
     def open_account(self, card_holder) -> BankAccount:
         account = BankAccount(card_holder)
@@ -73,8 +73,10 @@ class Bank:
 
 
 class Controller:
-    def __init__(self):
-        self.bank = Bank()
+    def __init__(self, data_file_name):
+        self.data_file_name = data_file_name
+        bank_accounts: dict[str, BankAccount] = load_accounts(data_file_name)
+        self.bank = Bank(bank_accounts)
 
     def run(self):
         print('Здравствуйте, наш банк открылся!')
@@ -89,6 +91,7 @@ class Controller:
 
             action = int(input())
             if action == 0:
+                save_accounts(self.bank.bank_accounts, self.data_file_name)
                 print('До свидания!')
                 break
             elif action == 1:
@@ -123,5 +126,5 @@ class Controller:
 
 
 if __name__ == '__main__':
-    controller = Controller()
+    controller = Controller('data.json')
     controller.run()
